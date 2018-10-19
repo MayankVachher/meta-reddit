@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-89394559-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-89394559-4');
+</script>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Snooze | Project meta-bot</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <!-- Bulma Version 0.6.0 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css" integrity="sha256-HEtF7HLJZSC3Le1HcsWbz1hDYFPZCqDhZa9QsCgVUdw=" crossorigin="anonymous" />
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/one_page.css') }}?t={{ timeref }}">
+</head>
+<body>
+
+  <section class="hero is-info is-medium">
+    <div class="hero-head">
+      <nav class="navbar">
+        <div class="container">
+          <div class="navbar-brand">
+            <a class="navbar-item" href="#">
+              <h1 class="title is-3">///Snooze</h1>
+          </a>
+          <span class="navbar-burger burger" data-target="navbarMenu">
+              <span></span>
+              <span></span>
+              <span></span>
+          </span>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-end">
+          <a class="navbar-item" href="#glance">
+            Project at a Glance
+        </a>
+        <a class="navbar-item" href="#interaction_patterns">
+            Reddit Community Trends
+        </a>
+        <a class="navbar-item" href="#tsne_plots">
+            Visualizing Reddit Substructures
+        </a>
+        <a class="navbar-item" href="#about">
+            About
+        </a>
+    </div>
+</div>
+</div>
+</nav>
+</div>
+<div class="hero-body">
+  <div class="container has-text-centered">
+    <h1 class="title">
+      r/meta-bot
+  </h1>
+</div>
+</div>
+
+</section>
+
+<div class="box cta">
+    <p class="has-text-centered">
+      <b>Identifying underlying structures of the Reddit community</b>
+  </p>
+</div>
+
+<section class="hero" id="glance">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title is-size-2">
+          Project at a Glance
+      </h1>
+      <br>
+      <div class="columns">
+        <div class="column is-3">
+          <div class="card has-text-centered bm--card-equal-height">
+            <div class="card-content">
+              <p class="title is-size-3" style="padding-top: 10px; padding-bottom: 10px">1 GB</p>
+              <p class="subtitle is-size-6">Amount of Data explored</p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-3">
+          <div class="card has-text-centered bm--card-equal-height">
+            <div class="card-content">
+              <p class="title is-size-3" style="padding-top: 10px; padding-bottom: 10px">
+                <span class="icon" style="color: #ff4500">
+                  <i class="fa fa-reddit"></i>
+                </span>
+              Reddit
+              </p>
+              <p class="subtitle is-size-6">Dataset explored</p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-3">
+          <div class="card has-text-centered bm--card-equal-height">
+            <div class="card-content">
+              <p class="title is-size-3" style="padding-top: 10px; padding-bottom: 10px">{{ total_subreddit_count }}</p>
+              <p class="subtitle is-size-6">Number of subreddits analyzed</p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-3">
+          <div class="card has-text-centered bm--card-equal-height">
+            <div class="card-content">
+              <p class="title is-size-3" style="padding-top: 10px; padding-bottom: 10px">{{ total_comment_count }}</p>
+              <p class="subtitle is-size-6">Number of comments examined</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column is-3">
+          <div class="card has-text-centered bm--card-equal-height">
+            <div class="card-content">
+              <p class="title is-size-3" style="padding-top: 10px; padding-bottom: 10px">{{ num_topics }}</p>
+              <p class="subtitle is-size-6">Number of Clusters formed</p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-3">
+          <div class="card has-text-centered bm--card-equal-height">
+            <div class="card-content">
+              <p class="title is-size-3" style="padding-top: 10px; padding-bottom: 10px">{{ maxcomments }}</p>
+              <p class="subtitle is-size-6">Subreddit with Most Comments</p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-3">
+          <div class="card has-text-centered bm--card-equal-height">
+            <div class="card-content">
+              <p class="title is-size-3" style="padding-top: 10px; padding-bottom: 10px">{{ maxupvotes }}</p>
+              <p class="subtitle is-size-6">Subreddit with Most Upvotes</p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-3">
+          <div class="card has-text-centered bm--card-equal-height">
+            <div class="card-content">
+              <p class="title is-size-3" style="padding-top: 10px; padding-bottom: 10px">{{ maxratio }}</p>
+              <p class="subtitle is-size-6">Subreddit with Most Lurkers</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+</section>
+
+<section class="hero" id="interaction_patterns">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title is-size-2">
+          Reddit Community Trends
+        </h1>
+        <div class="columns">
+          <div class="column is-8 is-offset-2" id="tri_dim_chart" style="height: 600px"></div>
+        </div>
+        <br>
+        <br>
+        <div class="columns">
+          <div class="column is-10 is-offset-1" id="comments_dist" style="height: 800px"></div>
+        </div>
+        <br>
+        <br>
+        <div class="columns">
+          <div class="column is-10 is-offset-1" id="upvotes_dist" style="height: 800px"></div>
+        </div>
+        <br>
+        <br>
+        <div class="columns">
+          <div class="column is-10 is-offset-1" id="lurkers_dist" style="height: 800px"></div>
+        </div>
+  </div>
+</div>
+</section>
+
+<section class="hero" id="tsne_plots">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title is-size-2">
+          Visualizing Reddit Substructures
+      </h1>
+      <div class="columns">
+        <div class="card chart-container column is-8 is-offset-2">
+          <div class="card-content">
+            <canvas id="tsne_plot" width="3" height="2"></canvas>
+          </div>
+        </div>
+      </div>
+        <!-- T-SNE Plots Details -->
+        <!-- https://shuaiw.github.io/2016/12/22/topic-modeling-and-tsne-visualzation.html -->
+        <br>
+        <h1 class="subtitle is-size-4">
+          Top 3 Words per Topic
+        </h1>
+        <div class="columns is-multiline">
+
+          {% for topic_obj in top_words_dist %}
+
+            <div class="column is-2">
+            <div class="card bm--card-equal-height">
+              <div class="card-content">
+                <h1 class="title is-size-4">Topic {{ topic_obj.topic_num }}</h1>
+
+                {% for word_prob in topic_obj.dists %}
+                  <div>{{ word_prob[1] }} '{{ word_prob[0] }}'</div>
+                {% endfor %}
+
+              </div>
+            </div>
+          </div>
+
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+</section>
+
+<section class="hero" id="about">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title is-size-2">
+          About Us
+      </h1>
+      <div class="columns">
+        <div class="column is-2">
+          <div class="card bm--card-equal-height has-text-centered">
+            <div class="card-image">
+              <figure class="image max-image">
+                <img src="{{ url_for('static', filename='img/Mayank.jpeg') }}?t={{ timeref }}" alt="Mayank Vachher">
+              </figure>
+            </div>
+            <div class="card-content">
+              <p class="title is-size-3" style="padding-top: 10px; padding-bottom: 10px">Mayank Vachher</p>
+              <p class="subtitle is-size-6"><a href="mailto:mvachher@sfu.ca">mvachher@sfu.ca</a></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-2">
+          <div class="card bm--card-equal-height has-text-centered">
+            <div class="card-image">
+              <figure class="image max-image">
+                <img src="{{ url_for('static', filename='img/Mehvish.jpeg') }}?t={{ timeref }}" alt="Mehvish Saleem">
+              </figure>
+            </div>
+            <div class="card-content">
+              <p class="title is-size-3" style="padding-top: 10px; padding-bottom: 10px">Mehvish Saleem</p>
+              <p class="subtitle is-size-6"><a href="mailto:mehvishs@sfu.ca">mehvishs@sfu.ca</a></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="column is-2">
+          <div class="card bm--card-equal-height has-text-centered">
+            <div class="card-image">
+              <figure class="image max-image">
+                <img src="{{ url_for('static', filename='img/Namita.jpeg') }}?t={{ timeref }}" alt="Namita Shah">
+              </figure>
+            </div>
+            <div class="card-content">
+              <p class="title is-size-3" style="padding-top: 10px; padding-bottom: 10px">Namita Shah</p>
+              <p class="subtitle is-size-6"><a href="mailto:namitas@sfu.ca">namitas@sfu.ca</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <p>
+          <strong>r/meta-bot</strong> by <a href="#about">Team Snooze</a>
+      </p>
+  </div>
+</div>
+</footer>
+<script async type="text/javascript" src="{{ url_for('static', filename='js/bulma.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
+<script type="text/javascript">
+    var ctx = document.getElementById("tsne_plot").getContext("2d");
+    var color = Chart.helpers.color;
+    var myChart = new Chart.Scatter(ctx, {
+        data: {
+            datasets: [
+            {% for topic_obj in topic_datasets %}
+              {
+                label: '{{ topic_obj.meta_label }}',
+                borderColor: color('{{ topic_obj.color }}').alpha(0.8).rgbString(),
+                backgroundColor: color('{{ topic_obj.color }}').alpha(0.5).rgbString(),
+                data: [
+                  {% for subreddit_obj in topic_obj["data"] %}
+                    {
+                      x: {{ subreddit_obj.x }},
+                      y: {{ subreddit_obj.y }},
+                      subreddit_name: "{{ subreddit_obj.subreddit_name }}"
+                    },
+                  {% endfor %}
+                ]
+              },
+            {% endfor %}
+            ]
+      },
+      options: {
+
+        scales: {
+            xAxes: [{
+              type: "linear",
+              display: false,
+            }],
+
+            yAxes: [{
+              type: "linear",
+              display: false,
+
+              gridLines: {
+                drawOnChartArea: false,
+              },
+            }],
+        },
+
+        elements: {
+          point: {
+            radius: 5,
+            hoverRadius: 7
+          },
+        },
+
+        layout: {
+            padding: {
+                left: 10,
+                right: 10,
+                top: 10,
+                bottom: 10
+            }
+        },
+
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+              topic_num = tooltipItem.datasetIndex;
+              point_num = tooltipItem.index;
+
+              var label = data.datasets[topic_num].data[point_num].subreddit_name;
+
+              return label;
+            }
+          }
+        },
+
+        legend: {
+            display: true,
+            position: 'right',
+            labels: {
+              usePointStyle: true
+            }
+        }
+      }
+    });
+</script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart", "bar"]});
+      google.charts.setOnLoadCallback(drawCharts);
+      function drawCharts() {
+        var data = google.visualization.arrayToDataTable([
+          ['Subreddit', 'Comments', 'Upvotes', 'Lurker Ratio', 'Bubble Size'],
+          {% for k, v in tri_dim.items() %}
+            ['{{ k }}', {{ v[0] }}, {{ v[1] }}, {{v[2]}}, {{v[2]}}],
+          {% endfor %}
+        ]);
+
+        var options = {
+          title: 'Correlation between Comments and Upvotes along with Lurker Ratio',
+          hAxis: {title: 'Comments'},
+          vAxis: {title: 'Upvotes'},
+          colorAxis: {colors: ['yellow', 'red']},
+          bubble: {
+                  textStyle: {
+                    color: 'none'
+                  },
+                  opacity: 0.5
+                },
+          explorer: { actions: ['dragToZoom', 'rightClickToReset'] }
+        };
+
+        var chart = new google.visualization.BubbleChart(document.getElementById('tri_dim_chart'));
+        chart.draw(data, options);
+
+
+
+
+        var data = google.visualization.arrayToDataTable([
+        ['Subreddit', 'Number of Comments'],
+          {% for obj in comments %}
+            ['{{ obj.subreddit }}', {{ obj.comment_count }}],
+          {% endfor %}
+      ]);
+
+      var options = {
+        title: 'Comments per Subreddit',
+        chartArea: {width: '50%'},
+        hAxis: {title: 'Number of Comments'},
+        vAxis: {title: 'Subreddit'},
+        bars: 'horizontal'
+      };
+      var chart = new google.charts.Bar(document.getElementById('comments_dist'));
+      chart.draw(data, google.charts.Bar.convertOptions(options));
+
+
+
+
+        var data = google.visualization.arrayToDataTable([
+        ['Subreddit', 'Number of Upvotes'],
+          {% for obj in upvotes %}
+            ['{{ obj.subreddit }}', {{ obj.upvote_count }}],
+          {% endfor %}
+      ]);
+
+      var options = {
+        title: 'Upvotes per Subreddit',
+        chartArea: {width: '50%'},
+        hAxis: {title: 'Number of Upvotes'},
+        vAxis: {title: 'Subreddit'},
+        bars: 'horizontal'
+      };
+      var chart = new google.charts.Bar(document.getElementById('upvotes_dist'));
+      chart.draw(data, google.charts.Bar.convertOptions(options));
+
+
+
+
+        var data = google.visualization.arrayToDataTable([
+        ['Subreddit', 'Number of Lurkers'],
+          {% for obj in ratio %}
+            ['{{ obj.subreddit }}', {{ obj.lurker_count }}],
+          {% endfor %}
+      ]);
+
+      var options = {
+        title: 'Lurkers per Subreddit',
+        chartArea: {width: '50%'},
+        hAxis: {title: 'Number of Lurkers'},
+        vAxis: {title: 'Subreddit'},
+        bars: 'horizontal'
+      };
+      var chart = new google.charts.Bar(document.getElementById('lurkers_dist'));
+      chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
+    </script>
+</body>
+</html>
